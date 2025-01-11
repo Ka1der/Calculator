@@ -34,7 +34,13 @@ final class CalculatorViewModel: ObservableObject {
         case "=":
             calculateResult()
         case "<":
-            displayText.removeLast()
+            if !displayText.isEmpty && displayText != "0" {
+                displayText.removeLast()
+                if displayText.isEmpty {
+                    displayText = "0"
+                }
+            }
+            
         default:
             break
         }
