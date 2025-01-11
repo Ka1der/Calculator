@@ -61,7 +61,35 @@ final class CalculatorViewModel: ObservableObject {
             numbers.append(number)
             print("\(numbers)")
         }
-        // TO-DO: сделать реализацию расчета
+        guard numbers.count == operations.count + 1 else {
+            return
+        }
+        
+        var result = numbers[0]
+        
+        for i in 0..<operations.count {
+            let nextNumber = numbers[i + 1]
+            
+            switch operations[i] {
+            case .plus:
+                result += nextNumber
+            case .minus:
+                result -= nextNumber
+            case .multiply:
+                result *= nextNumber
+            case .divide:
+                guard nextNumber != 0 else {
+                    return
+                }
+                result /= nextNumber
+            }
+        }
+        displayText = formatResult(result)
     }
-    
+    private func formatResult(_ number: Double) -> String {
+        if number.truncatingRemainder(dividingBy: 1) == 0 {
+            return String(Int(number))
+        }
+        return String(format: "%.2f", number)
+    }
 }
