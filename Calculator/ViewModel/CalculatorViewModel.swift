@@ -12,6 +12,7 @@ enum Operation: String {
     case minus = "-"
     case multiply = "X"
     case divide = "/"
+    case delete = "<"
 }
 
 final class CalculatorViewModel: ObservableObject {
@@ -32,6 +33,8 @@ final class CalculatorViewModel: ObservableObject {
             displayText += value
         case "=":
             calculateResult()
+        case "<":
+            displayText.removeLast()
         default:
             break
         }
@@ -82,6 +85,8 @@ final class CalculatorViewModel: ObservableObject {
                     return
                 }
                 result /= nextNumber
+            case .delete:
+                break
             }
         }
         displayText = formatResult(result)
