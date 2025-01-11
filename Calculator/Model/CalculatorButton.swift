@@ -24,7 +24,6 @@ struct CalculatorButton: View {
         )
             .onTapGesture {
                 action(number)
-                print(number)
             }
     }
 }
