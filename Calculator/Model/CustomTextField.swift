@@ -14,7 +14,7 @@ struct CustomTextField: View {
     var body: some View {
         TextField("0", text: $text)
             .padding()
-            .font(.system(size: 50))
+            .font(.system(size: 35))
             .background()
             .cornerRadius(10)
     }

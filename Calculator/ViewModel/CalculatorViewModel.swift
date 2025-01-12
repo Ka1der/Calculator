@@ -18,6 +18,7 @@ enum Operation: String {
 final class CalculatorViewModel: ObservableObject {
     
     @Published var displayText: String = "0"
+    @Published var historyViewModel = HistoryViewModel()
     
     func buttonsPress(_ value: String) {
         switch value {
@@ -40,7 +41,6 @@ final class CalculatorViewModel: ObservableObject {
                     displayText = "0"
                 }
             }
-            
         default:
             break
         }
@@ -50,6 +50,7 @@ final class CalculatorViewModel: ObservableObject {
         var currentNumber: String = ""
         var numbers: [Double] = []
         var operations: [Operation] = []
+        let expression = displayText
         
         for character in displayText {
             if let _ = Double(String(character)) {
@@ -95,12 +96,16 @@ final class CalculatorViewModel: ObservableObject {
                 break
             }
         }
+        let formattedResult = formatResult(result)
         displayText = formatResult(result)
-    }
-    private func formatResult(_ number: Double) -> String {
-        if number.truncatingRemainder(dividingBy: 1) == 0 {
-            return String(Int(number))
+        
+        historyViewModel.addToHistory(expression: expression, result: formattedResult)
+        
+        func formatResult(_ number: Double) -> String {
+            if number.truncatingRemainder(dividingBy: 1) == 0 {
+                return String(Int(number))
+            }
+            return String(format: "%.2f", number)
         }
-        return String(format: "%.2f", number)
     }
 }
